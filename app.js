@@ -24,7 +24,13 @@ function writeFile(origin, msg){
 }
 
 function readFile(origin){
-	return fs.readFileSync(origin, "utf-8");
+	var result;
+	try{
+		result = fs.readFileSync(origin, "utf-8");
+	}catch (e){
+		result = "Not Found";
+	}
+	return result;
 }
 
 http.createServer(function (req, res) {
