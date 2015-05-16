@@ -16,7 +16,9 @@ var http = require('http');
 var url = require('url');
 
 function writeFile(origin, msg){
-	fs.appendFile(origin, msg + "\r\n", function(err) {
+	msg = getDate() + " - " +  msg;
+	console.log(origin + ": " + msg);
+	fs.appendFile(origin,  msg + "\r\n", function(err) {
 	    if(err) {
 	        return console.log(err);
 	    }
@@ -31,6 +33,11 @@ function readFile(origin){
 		result = "Not Found";
 	}
 	return result;
+}
+
+function getDate(){
+	var date = new Date();
+	return date.getFullYear() + "/" + date.getMonth() + "/" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 }
 
 http.createServer(function (req, res) {
@@ -51,7 +58,6 @@ http.createServer(function (req, res) {
 	var msg = qo.msg;
 	if (origin || msg ){
 		writeFile(origin, msg);
-		console.log(origin + ": " + msg);
 		res.end("1");
 	}else{
 		res.end("0");
